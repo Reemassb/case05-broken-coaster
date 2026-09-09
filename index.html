@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Broken Coaster — Evidence &amp; Equations Case #05</title>
+<style>
+:root{
+  --ink:#0d1117; --ink2:#131a24; --ink3:#1a2430;
+  --amb:#e8a33d; --amb-dim:#a8762c;
+  --chalk:#e9e7e2; --chalk-dim:#9aa3ad;
+  --ok:#5fb87a; --no:#d1604f;
+  --rule:#26313d;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--ink);color:var(--chalk);
+  font:16px/1.6 "Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+  -webkit-font-smoothing:antialiased}
+.wrap{max-width:860px;margin:0 auto;padding:0 20px 90px}
+h1,h2,h3{font-family:"Helvetica Neue",Arial,sans-serif;font-weight:700;letter-spacing:-.01em;margin:0}
+p{margin:0 0 14px}
+button{font-family:"Helvetica Neue",Arial,sans-serif;cursor:pointer}
+:focus-visible{outline:2px solid var(--amb);outline-offset:3px}
+.hidden{display:none !important}
+.caseno{font:600 12px/1 "Helvetica Neue",Arial,sans-serif;letter-spacing:.22em;color:var(--amb-dim)}
+.btn{background:var(--amb);color:#17120a;border:0;border-radius:2px;
+  padding:13px 26px;font-size:15px;font-weight:700;letter-spacing:.03em}
+.btn:hover{background:#f4b356}
+.btn.ghost{background:transparent;color:var(--chalk-dim);border:1px solid var(--rule)}
+.btn.ghost:hover{color:var(--chalk);border-color:var(--chalk-dim)}
+.btn:disabled{opacity:.35;cursor:not-allowed}
+
+/* ---------- title ---------- */
+#title{min-height:100vh;display:flex;align-items:center;justify-content:center;
+  text-align:center;padding:40px 20px;position:relative;overflow:hidden}
+#titleScene{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+#titleScene svg{position:absolute;inset:0;width:100%;height:100%}
+#title .inner{position:relative;z-index:1;max-width:680px}
+#title h1{font-size:clamp(44px,10.5vw,98px);line-height:.94;color:var(--chalk)}
+#title .sub{margin-top:18px;font:400 15px/1.7 "Helvetica Neue",Arial,sans-serif;color:var(--chalk-dim)}
+#title .rule{width:54px;height:2px;background:var(--amb);margin:26px auto}
+.entry{margin-top:34px}
+.entry label{display:block;font:600 12px/1 "Helvetica Neue",Arial,sans-serif;
+  letter-spacing:.16em;color:var(--chalk-dim);margin-bottom:10px}
+.entry input{width:100%;max-width:340px;background:var(--ink2);border:1px solid var(--rule);
+  color:var(--chalk);border-radius:2px;padding:13px 15px;font-size:17px;
+  font-family:"Helvetica Neue",Arial,sans-serif;text-align:center;letter-spacing:.08em}
+.entry input:focus{border-color:var(--amb);outline:none}
+.entry .btn{margin-top:16px}
+.entry .note{margin-top:14px;font:400 12.5px/1.6 "Helvetica Neue",Arial,sans-serif;color:#6d7681}
+
+.bc-world{transform-origin:52% 56%;animation:bcCam 38s ease-in-out infinite alternate}
+@keyframes bcCam{from{transform:scale(1.01)}to{transform:scale(1.055) translate(-.8%,.4%)}}
+.bc-lamp{animation:bcFlick 7s ease-in-out infinite}
+@keyframes bcFlick{0%,100%{opacity:1}43%{opacity:.82}48%{opacity:1}76%{opacity:.9}80%{opacity:1}}
+.bc-bulbs{animation:bcChase 2.4s steps(1,end) infinite}
+@keyframes bcChase{0%,100%{opacity:1}50%{opacity:.35}}
+.bc-stars{animation:bcTwinkle 12s ease-in-out infinite alternate}
+@keyframes bcTwinkle{from{opacity:1}to{opacity:.5}}
+.bc-haze{animation:bcHaze 26s ease-in-out infinite alternate}
+@keyframes bcHaze{from{transform:translateX(-40px)}to{transform:translateX(48px)}}
+
+/* ---------- cinematic ---------- */
+#cine{position:fixed;inset:0;background:#04070c;z-index:60;display:flex;align-items:center;justify-content:center}
+#cine svg{width:100%;height:100%;max-width:980px}
+#cineSkip{position:absolute;right:20px;bottom:20px;z-index:2}
+#cineCap{position:absolute;left:0;right:0;bottom:64px;text-align:center;
+  font:600 12px/1 "Helvetica Neue",Arial,sans-serif;letter-spacing:.22em;color:var(--amb);opacity:0}
+
+/* ---------- case body ---------- */
+.masthead{border-bottom:1px solid var(--rule);padding:26px 0 18px;margin-bottom:30px;
+  display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap}
+.masthead h2{font-size:23px}
+.masthead .team{font:600 12px/1 "Helvetica Neue",Arial,sans-serif;letter-spacing:.16em;color:var(--amb)}
+.brief{background:var(--ink2);border-left:2px solid var(--amb);padding:20px 22px;margin-bottom:34px}
+.brief p:last-child{margin-bottom:0}
+h3.sec{font-size:13px;letter-spacing:.18em;color:var(--chalk-dim);margin:38px 0 16px;font-weight:600}
+
+.eviGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.evi{background:var(--ink2);border:1px solid var(--rule);border-radius:3px;padding:16px 18px}
+.evi h4{margin:0 0 12px;font:700 13px/1.3 "Helvetica Neue",Arial,sans-serif;letter-spacing:.05em;color:var(--amb)}
+.evi .row{display:flex;justify-content:space-between;gap:12px;padding:5px 0;border-bottom:1px dotted #202b36}
+.evi .row:last-child{border-bottom:0}
+.evi dt{color:var(--chalk-dim)}
+.evi dd{margin:0;font-variant-numeric:tabular-nums;font-weight:600;text-align:right}
+.evi dl{margin:0;font-family:"Helvetica Neue",Arial,sans-serif;font-size:14px}
+.evi .full{display:block;padding:7px 0 0;color:var(--chalk-dim);font-size:13px;line-height:1.55}
+
+.stage{border:1px solid var(--rule);border-radius:3px;margin-bottom:12px;background:var(--ink2);overflow:hidden}
+.stage.locked{opacity:.42}
+.stage.done{border-color:#2f4a38}
+.stHead{display:flex;align-items:center;gap:14px;padding:16px 18px}
+.stNum{flex:none;width:26px;height:26px;border-radius:50%;border:1px solid var(--rule);
+  display:grid;place-items:center;font:700 12px/1 "Helvetica Neue",Arial,sans-serif;color:var(--chalk-dim)}
+.stage.done .stNum{background:var(--ok);border-color:var(--ok);color:#0c1a11}
+.stage.open .stNum{border-color:var(--amb);color:var(--amb)}
+.stTitle{font:700 15px/1.35 "Helvetica Neue",Arial,sans-serif}
+.stBody{padding:0 18px 18px}
+.stBody .ask{font-size:15px;margin-bottom:14px}
+.eq{display:inline-block;background:var(--ink3);border:1px solid var(--rule);border-radius:2px;
+  padding:7px 12px;margin-bottom:14px;font:15px/1.5 "SFMono-Regular",Consolas,monospace;color:var(--amb)}
+.ansRow{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.ansRow input{width:190px;background:var(--ink3);border:1px solid var(--rule);color:var(--chalk);
+  border-radius:2px;padding:11px 13px;font:16px/1 "Helvetica Neue",Arial,sans-serif;font-variant-numeric:tabular-nums}
+.ansRow input:focus{border-color:var(--amb);outline:none}
+.unit{color:var(--chalk-dim);font:14px/1 "Helvetica Neue",Arial,sans-serif}
+.fb{margin-top:12px;font:14px/1.55 "Helvetica Neue",Arial,sans-serif;display:none}
+.fb.show{display:block}
+.fb.good{color:var(--ok)}
+.fb.bad{color:var(--no)}
+.tries{margin-top:8px;font:12px/1 "Helvetica Neue",Arial,sans-serif;color:#6d7681}
+.note{margin-top:12px;padding:12px 14px;background:var(--ink3);border-left:2px solid var(--amb-dim);
+  font:13.5px/1.6 "Helvetica Neue",Arial,sans-serif;color:var(--chalk-dim)}
+
+.sealed{border:1px dashed var(--amb-dim);background:rgba(232,163,61,.05);border-radius:3px;padding:18px;margin:16px 0}
+.sealed h4{margin:0 0 8px;font:700 13px/1.3 "Helvetica Neue",Arial,sans-serif;letter-spacing:.05em;color:var(--amb)}
+.sealed .val{font:700 26px/1.2 "Helvetica Neue",Arial,sans-serif;font-variant-numeric:tabular-nums;color:var(--chalk)}
+.sealed p{font:13.5px/1.6 "Helvetica Neue",Arial,sans-serif;color:var(--chalk-dim);margin:8px 0 0}
+
+.choices{display:flex;flex-direction:column;gap:9px;margin-top:6px}
+.choice{text-align:left;background:var(--ink3);border:1px solid var(--rule);color:var(--chalk);
+  border-radius:2px;padding:13px 15px;font:14.5px/1.5 "Helvetica Neue",Arial,sans-serif}
+.choice:hover{border-color:var(--chalk-dim)}
+
+.vpair{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:6px}
+@media(max-width:560px){.vpair{grid-template-columns:1fr}}
+.vcard{background:var(--ink3);border:1px solid var(--rule);border-radius:3px;padding:20px;
+  text-align:left;color:var(--chalk);font-family:"Helvetica Neue",Arial,sans-serif}
+.vcard:hover{border-color:var(--chalk-dim)}
+.vcard.sel{border-color:var(--amb);background:rgba(232,163,61,.08)}
+.vcard b{display:block;font-size:15px;margin-bottom:6px}
+.vcard span{font-size:13.5px;line-height:1.55;color:var(--chalk-dim)}
+
+#replayBox{background:#04070c;border:1px solid var(--rule);border-radius:3px;overflow:hidden;margin-top:8px}
+#replayBox svg{display:block;width:100%;height:auto}
+.rcap{padding:14px 18px;border-top:1px solid var(--rule);font:14px/1.6 "Helvetica Neue",Arial,sans-serif;color:var(--chalk-dim)}
+
+.cer label{display:block;font:700 13.5px/1.4 "Helvetica Neue",Arial,sans-serif;margin:18px 0 7px}
+.cer .hint{font:13px/1.55 "Helvetica Neue",Arial,sans-serif;color:#6d7681;margin-bottom:9px}
+.cer textarea,.xexam textarea{width:100%;background:var(--ink3);border:1px solid var(--rule);
+  color:var(--chalk);border-radius:2px;padding:13px;font:15px/1.65 inherit;resize:vertical}
+.cer textarea{min-height:110px}
+.xexam textarea{min-height:86px}
+.cer textarea:focus,.xexam textarea:focus{border-color:var(--amb);outline:none}
+.xexam{background:var(--ink2);border-left:2px solid var(--no);padding:18px 20px;margin:26px 0 6px}
+.xexam h4{margin:0 0 10px;font:700 13px/1.3 "Helvetica Neue",Arial,sans-serif;letter-spacing:.05em;color:var(--no)}
+.xexam p{font:14.5px/1.65 "Helvetica Neue",Arial,sans-serif;color:var(--chalk);margin:0 0 10px}
+.footer{margin-top:52px;padding-top:20px;border-top:1px solid var(--rule);
+  font:12.5px/1.7 "Helvetica Neue",Arial,sans-serif;color:#6d7681}
+
+/* ---------- printable report ---------- */
+#printReport{display:none}
+@media print{
+  @page{margin:16mm}
+  body{background:#fff !important;color:#111 !important;font:11.5pt/1.5 Georgia,serif}
+  #title,#cine,#case,.btn{display:none !important}
+  #printReport{display:block !important}
+  #printReport h1{font:700 20pt/1.2 "Helvetica Neue",Arial,sans-serif;margin:0 0 2mm}
+  #printReport .pcase{font:700 8.5pt/1 "Helvetica Neue",Arial,sans-serif;letter-spacing:.2em;color:#7a5410}
+  #printReport .pmeta{font:9.5pt/1.5 "Helvetica Neue",Arial,sans-serif;color:#555;margin:0 0 5mm;
+    padding-bottom:3mm;border-bottom:1px solid #bbb}
+  #printReport h2{font:700 11pt/1.3 "Helvetica Neue",Arial,sans-serif;margin:6mm 0 2mm;
+    color:#7a5410;letter-spacing:.06em;page-break-after:avoid}
+  #printReport table{width:100%;border-collapse:collapse;margin-bottom:3mm;
+    font:9.5pt/1.4 "Helvetica Neue",Arial,sans-serif}
+  #printReport th{text-align:left;background:#f2f4f6;color:#555;font-weight:700;padding:1.6mm 2mm;border:1px solid #ccc}
+  #printReport td{padding:1.6mm 2mm;border:1px solid #ccc;vertical-align:top}
+  #printReport td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+  #printReport .ans{font-weight:700}
+  #printReport .vd{display:inline-block;border:1.5px solid #111;padding:1.5mm 4mm;
+    font:700 11pt/1 "Helvetica Neue",Arial,sans-serif;letter-spacing:.08em}
+  #printReport .qa{margin-bottom:4mm;page-break-inside:avoid}
+  #printReport .q{font:italic 9.5pt/1.45 Georgia,serif;color:#555;margin:0 0 1.5mm}
+  #printReport .a{white-space:pre-wrap;border:1px solid #ccc;padding:2.5mm;min-height:14mm}
+  #printReport .foot{margin-top:6mm;padding-top:2mm;border-top:1px solid #bbb;
+    font:8.5pt/1.4 "Helvetica Neue",Arial,sans-serif;color:#666}
+}
+@media(prefers-reduced-motion:reduce){
+  *{animation-duration:.001s !important;animation-iteration-count:1 !important}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ TITLE ============ -->
+<section id="title">
+  <div id="titleScene" aria-hidden="true">
+    <svg viewBox="0 0 1200 700" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="bSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#04070e"/><stop offset="54%" stop-color="#0a1220"/>
+          <stop offset="88%" stop-color="#152234"/><stop offset="100%" stop-color="#1d2c40"/>
+        </linearGradient>
+        <linearGradient id="bGround" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#182533"/><stop offset="100%" stop-color="#060b12"/>
+        </linearGradient>
+        <radialGradient id="bGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#ffd79a" stop-opacity=".5"/>
+          <stop offset="26%" stop-color="#e8a33d" stop-opacity=".17"/>
+          <stop offset="100%" stop-color="#e8a33d" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="bHaze" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#5b7d94" stop-opacity=".14"/>
+          <stop offset="100%" stop-color="#3d6a80" stop-opacity="0"/>
+        </radialGradient>
+        <linearGradient id="bScrim" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#0d1117" stop-opacity=".93"/>
+          <stop offset="36%" stop-color="#0d1117" stop-opacity=".58"/>
+          <stop offset="62%" stop-color="#0d1117" stop-opacity=".13"/>
+          <stop offset="86%" stop-color="#0d1117" stop-opacity=".05"/>
+          <stop offset="100%" stop-color="#0d1117" stop-opacity=".42"/>
+        </linearGradient>
+        <radialGradient id="bVig" cx="50%" cy="46%" r="74%">
+          <stop offset="34%" stop-color="#000" stop-opacity="0"/>
+          <stop offset="100%" stop-color="#000" stop-opacity=".70"/>
+        </radialGradient>
+      </defs>
+
+      <g class="bc-world">
+        <rect x="-60" y="-40" width="1320" height="780" fill="url(#bSky)"/>
+        <g fill="#c9d6dd" class="bc-stars">
+          <circle cx="180" cy="72" r="1.2" opacity=".42"/><circle cx="392" cy="44" r="1" opacity=".3"/>
+          <circle cx="640" cy="94" r="1.3" opacity=".38"/><circle cx="1032" cy="58" r="1" opacity=".26"/>
+          <circle cx="1140" cy="128" r="1.2" opacity=".32"/>
+        </g>
+
+        <!-- distant park furniture -->
+        <g fill="#070e17" opacity=".9">
+          <path d="M60 512 L60 452 L108 428 L156 452 L156 512 Z"/>
+          <rect x="960" y="466" width="150" height="46"/>
+          <path d="M1000 466 L1035 434 L1070 466 Z"/>
+        </g>
+        <g stroke="#0c1622" stroke-width="4" fill="none">
+          <circle cx="242" cy="424" r="52"/><path d="M242 372 L242 476 M190 424 L294 424"/>
+        </g>
+
+        <!-- lamp posts -->
+        <g stroke="#15202c" stroke-width="5" fill="none">
+          <path d="M120 512 L120 348"/><path d="M1096 512 L1096 336"/>
+        </g>
+        <circle cx="120" cy="346" r="66" fill="url(#bGlow)" class="bc-lamp"/>
+        <circle cx="1096" cy="334" r="72" fill="url(#bGlow)" class="bc-lamp"/>
+
+        <!-- support structure -->
+        <g stroke="#1e2c3a" stroke-width="7" fill="none" stroke-linecap="square">
+          <path d="M470 512 L470 396 M392 512 L470 430 M548 512 L470 430"/>
+          <path d="M150 512 L150 470 M262 512 L262 470"/>
+        </g>
+
+        <!-- the loop -->
+        <g fill="none" stroke="#3c5468" stroke-width="9">
+          <path d="M150 512 L470 512"/>
+          <circle cx="470" cy="394" r="118"/>
+        </g>
+        <g fill="none" stroke="#6d8ba1" stroke-width="2.4" opacity=".65">
+          <path d="M150 506 L470 506"/><circle cx="470" cy="394" r="112"/>
+        </g>
+        <!-- rail bulbs -->
+        <g fill="#e8a33d" class="bc-bulbs" opacity=".85">
+          <circle cx="470" cy="276" r="3"/><circle cx="553" cy="311" r="3"/>
+          <circle cx="588" cy="394" r="3"/><circle cx="553" cy="477" r="3"/>
+          <circle cx="387" cy="311" r="3"/><circle cx="352" cy="394" r="3"/>
+          <circle cx="240" cy="506" r="3"/><circle cx="320" cy="506" r="3"/>
+        </g>
+
+        <!-- train -->
+        <g class="bc-train">
+          <rect x="-26" y="-9" width="52" height="18" rx="4" fill="#b8452f" stroke="#e0765a" stroke-width="1.4"/>
+          <rect x="-18" y="-6" width="10" height="8" rx="1" fill="#2a1610" opacity=".8"/>
+          <rect x="-2" y="-6" width="10" height="8" rx="1" fill="#2a1610" opacity=".8"/>
+          <animateMotion id="bcMotion" dur="7.4s" begin="1s" fill="freeze" rotate="auto"
+            calcMode="linear"
+            path="M150,512 L470,512 A118,118 0 0,0 470,276 A118,118 0 0,0 470,512"
+            keyPoints="0;0.34;0.52;0.575;0.50;0.44"
+            keyTimes="0;0.34;0.62;0.72;0.88;1"/>
+        </g>
+
+        <rect x="-60" y="510" width="1320" height="230" fill="url(#bGround)"/>
+        <g stroke="#26313d" stroke-width="1.4" opacity=".4">
+          <line x1="-60" y1="548" x2="1260" y2="548"/><line x1="-60" y1="612" x2="1260" y2="612"/>
+        </g>
+        <g class="bc-haze">
+          <ellipse cx="400" cy="536" rx="340" ry="30" fill="url(#bHaze)"/>
+          <ellipse cx="900" cy="560" rx="300" ry="26" fill="url(#bHaze)"/>
+        </g>
+        <g fill="#03070c">
+          <rect x="-60" y="612" width="210" height="130"/>
+          <rect x="1080" y="628" width="220" height="114"/>
+        </g>
+      </g>
+
+      <rect width="1200" height="700" fill="url(#bScrim)"/>
+      <rect width="1200" height="700" fill="url(#bVig)"/>
+    </svg>
+  </div>
+
+  <div class="inner">
+    <div class="caseno">EVIDENCE &amp; EQUATIONS &nbsp;·&nbsp; CASE #05</div>
+    <div class="rule"></div>
+    <h1>THE BROKEN<br>COASTER</h1>
+    <div class="sub">Energy conservation · Circular motion · Work done against resistance</div>
+    <p class="sub" style="margin-top:22px">The train did not complete the loop.<br>Where did the energy go?</p>
+    <div class="entry">
+      <label for="teamIn">INVESTIGATION TEAM NAME</label>
+      <input id="teamIn" type="text" autocomplete="off" spellcheck="false" placeholder="e.g. KINETIC">
+      <br><button class="btn" id="startBtn">Take the case</button>
+      <p class="note">Your team name determines your evidence. Every team gets a different ride.<br>No logins. No student data collected.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CINEMATIC ============ -->
+<div id="cine" class="hidden" aria-hidden="true">
+  <svg viewBox="0 0 980 620" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="kSky" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#03060c"/><stop offset="66%" stop-color="#0a1220"/>
+        <stop offset="100%" stop-color="#182636"/>
+      </linearGradient>
+      <linearGradient id="kGround" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#182533"/><stop offset="100%" stop-color="#05090f"/>
+      </linearGradient>
+      <radialGradient id="kGlow" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#ffd79a" stop-opacity=".48"/>
+        <stop offset="100%" stop-color="#e8a33d" stop-opacity="0"/>
+      </radialGradient>
+      <radialGradient id="kVig" cx="50%" cy="48%" r="72%">
+        <stop offset="42%" stop-color="#000" stop-opacity="0"/>
+        <stop offset="100%" stop-color="#000" stop-opacity=".74"/>
+      </radialGradient>
+    </defs>
+
+    <g class="j-cam">
+      <rect x="-40" y="-40" width="1060" height="700" fill="url(#kSky)"/>
+      <circle cx="120" cy="300" r="90" fill="url(#kGlow)" class="j-lamp"/>
+      <circle cx="880" cy="286" r="96" fill="url(#kGlow)" class="j-lamp"/>
+      <g stroke="#15202c" stroke-width="5" fill="none">
+        <path d="M120 470 L120 302"/><path d="M880 470 L880 288"/>
+      </g>
+
+      <g stroke="#1e2c3a" stroke-width="7" fill="none" stroke-linecap="square">
+        <path d="M500 470 L500 356 M424 470 L500 392 M576 470 L500 392"/>
+      </g>
+      <g fill="none" stroke="#3c5468" stroke-width="9">
+        <path d="M120 470 L500 470"/><circle cx="500" cy="356" r="114"/>
+      </g>
+      <g fill="none" stroke="#6d8ba1" stroke-width="2.4" opacity=".6">
+        <path d="M120 464 L500 464"/><circle cx="500" cy="356" r="108"/>
+      </g>
+      <g fill="#e8a33d" class="j-bulbs" opacity=".8">
+        <circle cx="500" cy="242" r="3.2"/><circle cx="580" cy="276" r="3.2"/>
+        <circle cx="614" cy="356" r="3.2"/><circle cx="580" cy="436" r="3.2"/>
+        <circle cx="420" cy="276" r="3.2"/><circle cx="386" cy="356" r="3.2"/>
+        <circle cx="220" cy="464" r="3.2"/><circle cx="320" cy="464" r="3.2"/>
+      </g>
+
+      <g class="j-train">
+        <rect x="-30" y="-10" width="60" height="20" rx="5" fill="#b8452f" stroke="#e0765a" stroke-width="1.5"/>
+        <rect x="-21" y="-7" width="11" height="9" rx="1" fill="#2a1610" opacity=".85"/>
+        <rect x="-4" y="-7" width="11" height="9" rx="1" fill="#2a1610" opacity=".85"/>
+        <rect x="13" y="-7" width="11" height="9" rx="1" fill="#2a1610" opacity=".85"/>
+        <animateMotion id="jMotion" dur="7.6s" begin="indefinite" fill="freeze" rotate="auto"
+          calcMode="linear"
+          path="M60,470 L500,470 A114,114 0 0,0 500,242 A114,114 0 0,0 500,470"
+          keyPoints="0;0.40;0.575;0.615;0.62;0.48;0.32"
+          keyTimes="0;0.34;0.58;0.68;0.72;0.88;1"/>
+      </g>
+
+      <rect x="-40" y="468" width="1060" height="192" fill="url(#kGround)"/>
+      <g stroke="#26313d" stroke-width="1.4" opacity=".4">
+        <line x1="-40" y1="506" x2="1020" y2="506"/><line x1="-40" y1="566" x2="1020" y2="566"/>
+      </g>
+      <g class="j-brake" opacity="0">
+        <rect x="150" y="452" width="150" height="8" rx="2" fill="#d1604f"/>
+      </g>
+    </g>
+
+    <rect x="0" y="0" width="980" height="620" fill="url(#kVig)"/>
+
+    <g class="j-hud" opacity="0">
+      <rect x="58" y="504" width="330" height="88" rx="3" fill="#050a11" stroke="#26313d"/>
+      <text x="78" y="532" fill="#6d7681" font-family="Helvetica Neue,Arial" font-size="11"
+            letter-spacing="2.4">LAUNCH TELEMETRY · EXIT SPEED</text>
+      <text id="telVal" x="78" y="570" fill="#e8a33d" font-family="Helvetica Neue,Arial"
+            font-size="30" font-weight="700">0.00</text>
+      <text id="telTag" x="368" y="570" fill="#d1604f" text-anchor="end"
+            font-family="Helvetica Neue,Arial" font-size="12" font-weight="700"
+            letter-spacing="2" opacity="0">ROLLBACK</text>
+    </g>
+  </svg>
+  <div id="cineCap">CASE EVIDENCE RECORDED</div>
+  <button class="btn ghost" id="cineSkip">Skip</button>
+</div>
+
+<div id="printReport" aria-hidden="true"></div>
+
+<!-- ============ CASE ============ -->
+<main id="case" class="wrap hidden">
+  <div class="masthead">
+    <div><div class="caseno">CASE #05</div><h2>The Broken Coaster</h2></div>
+    <div class="team" id="teamTag"></div>
+  </div>
+
+  <div class="brief">
+    <p>At 21:40, after the park had closed, a launched coaster train was sent round on a routine test cycle. It cleared the launch track, climbed into the vertical loop, slowed, and stalled before the crest. It rolled back down and the block brakes caught it. Nobody was aboard.</p>
+    <p>The park says the launch system under-delivered and the train never had enough energy to begin with. The ride manufacturer says the launch was fine and something on the train was dragging.</p>
+    <p>Both stories end with a train stalled on the loop. They differ in where the energy went.</p>
+    <p style="margin-bottom:0"><strong>Your job is an energy audit.</strong> Work out how much energy the train started with, how much it should have lost to normal resistance, and how much actually disappeared. The difference decides which account the evidence supports.</p>
+  </div>
+
+  <h3 class="sec">EVIDENCE ON THE BENCH</h3>
+  <div class="eviGrid" id="eviGrid"></div>
+
+  <h3 class="sec">INVESTIGATION</h3>
+  <div id="stages"></div>
+
+  <div id="verdictWrap" class="hidden">
+    <h3 class="sec">VERDICT</h3>
+    <div class="stage open">
+      <div class="stHead"><div class="stNum">V</div><div class="stTitle">What does the evidence support?</div></div>
+      <div class="stBody">
+        <p class="ask" id="verdictAsk"></p>
+        <div class="vpair">
+          <button class="vcard" data-v="LAUNCH SHORTFALL">
+            <b>Insufficient launch energy</b>
+            <span>Resistance was within the documented normal range. The train did not begin the run with enough mechanical energy to pass the crest at the certified minimum speed.</span>
+          </button>
+          <button class="vcard" data-v="MECHANICAL DRAG">
+            <b>Abnormal mechanical energy loss</b>
+            <span>The launch supplied enough energy. The observed motion requires far greater energy loss than the documented normal resistance predicts.</span>
+          </button>
+        </div>
+        <div class="fb" id="verdictFb"></div>
+        <div style="margin-top:16px"><button class="btn" id="verdictBtn" disabled>File the verdict</button></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="replayWrap" class="hidden">
+    <h3 class="sec">RECONSTRUCTION</h3>
+    <p style="font:14.5px/1.7 'Helvetica Neue',Arial,sans-serif;color:var(--chalk-dim)">Built from your numbers. The solid marker is where the train actually stalled. The dashed marker is how far an identical train would have got losing only the documented resistance.</p>
+    <div id="replayBox"></div>
+    <div style="margin-top:14px"><button class="btn ghost" id="replayAgain">Play again</button></div>
+  </div>
+
+  <div id="cerWrap" class="hidden">
+    <h3 class="sec">WRITTEN JUSTIFICATION</h3>
+    <div class="stage open"><div class="stBody" style="padding-top:18px">
+      <div class="cer">
+        <label for="cClaim">Claim</label>
+        <p class="hint">State which account the evidence supports, and be careful to claim only what your audit establishes. One sentence.</p>
+        <textarea id="cClaim"></textarea>
+        <label for="cEvid">Evidence</label>
+        <p class="hint">Quote your own numbers with units — the launch energy, the energy required at the crest, the energy actually dissipated, the documented expected loss, and the ratio between the last two.</p>
+        <textarea id="cEvid"></textarea>
+        <label for="cReason">Reasoning</label>
+        <p class="hint">Explain why reaching the crest height is not the same as completing the loop, and how comparing actual dissipation with documented dissipation separates the two accounts.</p>
+        <textarea id="cReason"></textarea>
+      </div>
+      <div class="xexam">
+        <h4>CROSS-EXAMINATION</h4>
+        <p id="xq1"></p>
+        <textarea id="cX1"></textarea>
+        <p id="xq2" style="margin-top:16px"></p>
+        <textarea id="cX2"></textarea>
+      </div>
+      <div style="margin-top:18px"><button class="btn" id="printBtn">Print / save as PDF</button></div>
+    </div></div>
+  </div>
+
+  <div class="footer">
+    Evidence &amp; Equations · Case #05 “The Broken Coaster” · Energy conservation, circular motion and work done against resistance.<br>
+    Every team's ride is generated from its team name. Answers are accepted within 3%; the percentage-comparison step also allows a small absolute margin.
+  </div>
+</main>
+
+<script>
+/* ===================== PHYSICS CORE ===================== */
+/* Energy audit of a launched train that stalled on a vertical loop.
+   The crest requirement is a certification limit: the train must pass
+   the crest at no less than v = sqrt(g r), the speed at which the track
+   normal force falls to zero.                                          */
+(function (root) {
+  'use strict';
+  var G = 9.81, TOL = 0.03, RATIO_LOW = 1.25, RATIO_HIGH = 2.50;
+
+  function normalizeTeam(n){ return String(n||'').toUpperCase().replace(/[^A-Z0-9]/g,''); }
+  function xmur3(str){var h=1779033703^str.length;for(var i=0;i<str.length;i++){
+    h=Math.imul(h^str.charCodeAt(i),3432918353);h=(h<<13)|(h>>>19);}
+    return function(){h=Math.imul(h^(h>>>16),2246822507);h=Math.imul(h^(h>>>13),3266489909);
+      h^=h>>>16;return h>>>0;};}
+  function mulberry32(a){return function(){a|=0;a=(a+0x6D2B79F5)|0;
+    var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;
+    return((t^(t>>>14))>>>0)/4294967296;};}
+  function makeRng(t){var s=xmur3('E&E::CASE05::BROKENCOASTER::'+normalizeTeam(t));s();
+    return mulberry32(s());}
+  function rr(r,a,b){return a+r()*(b-a);}
+  function rstep(r,a,b,s){var n=Math.floor((b-a)/s)+1;return round(a+Math.floor(r()*n)*s,6);}
+  function round(v,d){var f=Math.pow(10,d);return Math.round(v*f)/f;}
+
+  function generate(teamName){
+    var rng = makeRng(teamName);
+
+    var r  = rstep(rng, 8.0, 16.0, 0.5);
+    var m  = rstep(rng, 5200, 9400, 50);
+    var mu = rstep(rng, 0.028, 0.048, 0.001);
+    var s  = rstep(rng, 74, 130, 1);
+
+    var h_top    = 2 * r;
+    var v_top    = Math.sqrt(G * r);
+    var E_top    = 2.5 * m * G * r;
+    var W_expect = mu * m * G * s;
+
+    var frac    = rr(rng, 0.72, 0.93);
+    var h_stall = round(h_top * frac, 2);
+
+    var drag = rng() < 0.5;
+    var KE0;
+    if (drag) KE0 = (E_top + W_expect) * rr(rng, 1.06, 1.22);
+    else      KE0 = m * G * h_stall + W_expect * rr(rng, 0.90, 1.12);
+
+    var v0 = round(Math.sqrt(2 * KE0 / m), 2);
+    var v_gate = round(v0 * (1 + rr(rng, -0.0035, 0.0035)), 2);
+
+    var a_KE0      = 0.5 * m * v0 * v0;
+    var a_v_top    = Math.sqrt(G * r);
+    var a_E_top    = m * G * h_top + 0.5 * m * a_v_top * a_v_top;
+    var a_KE_gate  = 0.5 * m * v_gate * v_gate;
+    var a_xcheck   = Math.abs(a_KE_gate - a_KE0) / a_KE0 * 100;
+    var a_W_actual = a_KE0 - m * G * h_stall;
+    var a_W_expect = mu * m * G * s;
+    var a_ratio    = a_W_actual / a_W_expect;
+
+    var healthyAtTop = a_KE0 - a_W_expect;
+    var wouldHaveCleared = healthyAtTop >= a_E_top;
+
+    return {
+      team:normalizeTeam(teamName), teamDisplay:String(teamName||'').trim(),
+      given:{r:round(r,1),m:m,mu:mu,s:s,v0:v0,h_stall:h_stall,h_top:round(h_top,1),g:G},
+      sealed:{v_gate:v_gate},
+      answers:{KE0:a_KE0/1e6, v_top:a_v_top, E_top:a_E_top/1e6, xcheck:a_xcheck,
+               W_actual:a_W_actual/1e6, W_expect:a_W_expect/1e6, ratio:a_ratio},
+      verdict: a_ratio >= RATIO_HIGH ? 'MECHANICAL DRAG' : 'LAUNCH SHORTFALL',
+      truth:{drag:drag, wouldHaveCleared:wouldHaveCleared,
+             healthyAtTop:healthyAtTop/1e6,
+             healthyMargin:(healthyAtTop-a_E_top)/1e6,
+             stallFraction:h_stall/h_top*100,
+             E_reach_only:m*G*h_top/1e6,
+             E_extra_needed:0.5*m*a_v_top*a_v_top/1e6}
+    };
+  }
+  root.EE05={generate:generate,normalizeTeam:normalizeTeam,G:G,TOL:TOL,
+             RATIO_LOW:RATIO_LOW,RATIO_HIGH:RATIO_HIGH};
+})(window);
+
+/* ===================== APP ===================== */
+(function(){
+'use strict';
+var $=function(s){return document.querySelector(s);};
+var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+var C=null, cineDone=false, chosen=null;
+function n(v,d){ return Number(v).toFixed(d); }
+
+var STAGES=[
+ {id:'KE0', title:'Energy the train started with', unit:'MJ', dp:3,
+  eq:'KE = \u00bd m v\u00b2      1 MJ = 1 \u00d7 10\u2076 J',
+  ask:'The launch telemetry recorded the train\u2019s speed at the moment it left the launch track. Convert that into kinetic energy. Work in joules, then convert \u2014 every energy answer in this case is in megajoules.',
+  hint:'Divide your answer in joules by 1 000 000.',
+  note:'Take the bottom of the loop as your zero of gravitational potential energy, and keep it there for the whole case.'},
+
+ {id:'v_top', title:'Minimum speed at the crest', unit:'m/s', dp:2,
+  eq:'at the crest:  m v\u00b2 / r = m g   \u2192   v = \u221a(g r)',
+  ask:'At the top of the loop, gravity points straight at the centre of the circle. The certification limit is the speed at which the track pushes on the train with zero force \u2014 below that, riders are held in by the restraints rather than by the track, and the ride is outside its certificate. Find that speed.',
+  hint:'Set the normal force to zero, so gravity alone supplies the centripetal force.'},
+
+ {id:'E_top', title:'Energy required at the crest', unit:'MJ', dp:3,
+  eq:'E = m g (2r) + \u00bd m v_min\u00b2',
+  ask:'The train has to arrive at the crest with both the height and the speed. Add the two.',
+  hint:'The crest is at height 2r, not r. And reaching it is not enough on its own.'},
+
+ {id:'xcheck', title:'Cross-check the launch telemetry', unit:'%', dp:2, abs:0.20,
+  eq:'difference = |KE_photogate \u2212 KE_telemetry| / KE_telemetry \u00d7 100',
+  ask:'The launch figure is the number the two parties are arguing about, and it comes from the manufacturer\u2019s own control system. Break the seal: an independent photogate at the launch exit measured the same train.',
+  hint:'Work out the kinetic energy from the photogate speed, then compare it with stage 1.', sealed:true},
+
+ {id:'W_actual', title:'Energy that actually disappeared', unit:'MJ', dp:3,
+  eq:'W = KE\u2080 \u2212 m g h_stall',
+  ask:'The train came to rest at the stall height \u2014 momentarily its kinetic energy was zero. Everything that was not converted into height had to go somewhere else.',
+  hint:'At the stall point the train is stationary, so there is no kinetic term left.'},
+
+ {id:'W_expect', title:'Energy a healthy train should have lost', unit:'MJ', dp:3,
+  eq:'W = \u03bc m g s',
+  ask:'The maintenance file documents the combined rolling and aerodynamic resistance for this train. Over the distance it travelled, how much energy should that have cost?',
+  hint:'Use the track distance from launch to the stall point, not the height.'},
+
+ {id:'ratio', title:'How much more was lost than documented?', unit:'\u00d7', dp:2,
+  eq:'ratio = W_actual / W_expected',
+  ask:'Express the actual loss as a multiple of the documented loss. A healthy train should come out close to 1.',
+  hint:'Divide stage 5 by stage 6. The answer has no units.'}
+];
+
+function buildEvidence(){
+  var g=C.given;
+  $('#eviGrid').innerHTML =
+   card('RIDE SPEC PLATE',[['Loop radius', g.r.toFixed(1)+' m'],
+     ['Crest height above track', g.h_top.toFixed(1)+' m'],
+     ['Train and riders, total mass', g.m+' kg'],
+     ['g on site', g.g+' m/s\u00b2']])
+  +card('LAUNCH TELEMETRY',[['Exit speed', g.v0.toFixed(2)+' m/s'],
+     ['Launch type', 'Linear synchronous motor'],
+     ['Cycle', 'Test, unoccupied'],
+     ['Time', '21:40']])
+  +card('INCIDENT SURVEY',[['Stall height above track', g.h_stall.toFixed(2)+' m'],
+     ['Track distance, launch to stall', g.s+' m'],
+     ['Speed at stall', '0 m/s'],
+     ['Outcome', 'Rolled back, brakes held']])
+  +card('MAINTENANCE FILE',[['Resistance coefficient, \u03bc', g.mu.toFixed(3)],
+     ['Covers', 'Rolling + aerodynamic'],
+     ['Last inspection', 'Within schedule']],
+     'Certification: the train must pass the crest at no less than the design minimum speed, defined as the speed at which the track normal force falls to zero.');
+}
+function card(h,rows,full){
+  return '<div class="evi"><h4>'+h+'</h4><dl>'
+    +rows.map(function(r){return '<div class="row"><dt>'+r[0]+'</dt><dd>'+r[1]+'</dd></div>';}).join('')
+    +'</dl>'+(full?'<div class="full">'+full+'</div>':'')+'</div>';
+}
+
+var stageState={};
+function buildStages(){
+  $('#stages').innerHTML = STAGES.map(function(s,i){
+    var sealedHtml = s.sealed
+      ? '<div class="sealed" id="sealedBox"><h4>SEALED ENVELOPE \u2014 INDEPENDENT PHOTOGATE</h4>'
+        +'<div class="val" id="sealedVal">\u2022\u2022\u2022\u2022\u2022</div>'
+        +'<p>Park-installed photogate at the launch exit, on a separate circuit from the ride control system. It measured this train on this cycle and neither party had access to it.</p>'
+        +'<p style="margin-top:10px"><button class="btn ghost" id="openSealed">Break the seal</button></p></div>'
+      : '';
+    return '<div class="stage locked" id="st'+i+'">'
+      +'<div class="stHead"><div class="stNum">'+(i+1)+'</div><div class="stTitle">'+s.title+'</div></div>'
+      +'<div class="stBody"><p class="ask">'+s.ask+'</p><div class="eq">'+s.eq+'</div>'+sealedHtml
+      +'<div class="ansRow"><input type="text" inputmode="decimal" id="in'+i+'" placeholder="your answer">'
+      +'<span class="unit">'+s.unit+'</span><button class="btn" id="ck'+i+'">Check</button></div>'
+      +'<div class="fb" id="fb'+i+'"></div><div class="tries" id="tr'+i+'"></div>'
+      +(s.note?'<div class="note">'+s.note+'</div>':'')+'</div></div>';
+  }).join('');
+  STAGES.forEach(function(s,i){
+    stageState[i]={tries:0,done:false};
+    $('#ck'+i).addEventListener('click',function(){check(i);});
+    $('#in'+i).addEventListener('keydown',function(e){ if(e.key==='Enter') check(i); });
+  });
+  $('#openSealed').addEventListener('click',function(){
+    $('#sealedVal').textContent = C.sealed.v_gate.toFixed(2)+' m/s';
+    this.parentNode.remove();
+  });
+  openStage(0);
+}
+
+function openStage(i){
+  var el=$('#st'+i); if(!el) return;
+  el.classList.remove('locked'); el.classList.add('open');
+  var inp=$('#in'+i); if(inp) inp.focus({preventScroll:true});
+  el.scrollIntoView({behavior:reduced?'auto':'smooth',block:'center'});
+}
+
+function check(i){
+  var s=STAGES[i], st=stageState[i];
+  if(st.done) return;
+  var v=parseFloat($('#in'+i).value.trim().replace(/,/g,''));
+  var fb=$('#fb'+i); fb.className='fb show';
+  if(!isFinite(v)){ fb.classList.add('bad'); fb.textContent='Enter a number.'; return; }
+  if(s.sealed && $('#openSealed')){
+    fb.classList.add('bad');
+    fb.textContent='Break the seal first. You cannot compare against a measurement you have not read.';
+    return;
+  }
+  var target=C.answers[s.id];
+  var band=Math.max(0.03*Math.abs(target), s.abs||0);
+  st.tries++;
+  if(Math.abs(v-target)<=band){
+    st.done=true;
+    $('#st'+i).classList.remove('open'); $('#st'+i).classList.add('done');
+    fb.classList.add('good');
+    fb.textContent='Accepted \u2014 '+n(target,s.dp)+' '+s.unit+(st.tries===1?'':' (after '+st.tries+' attempts)');
+    $('#ck'+i).disabled=true; $('#in'+i).disabled=true;
+    afterStage(i);
+  }else{
+    fb.classList.add('bad');
+    var msg='Not accepted. Your value is too '+(v>target?'high':'low')+'.';
+    /* the misconception this case exists to catch */
+    if(s.id==='E_top' && Math.abs(v-C.truth.E_reach_only)/C.truth.E_reach_only<=0.03)
+      msg='Not accepted. That is m g (2r) alone \u2014 the energy to reach the crest height. Arriving there is not enough.';
+    fb.textContent=msg;
+    $('#tr'+i).textContent = st.tries>=2 ? 'Hint: '+s.hint : '';
+  }
+}
+
+function afterStage(i){
+  if(STAGES[i].id==='xcheck'){
+    gate(i,'The photogate and the telemetry agree to '+C.answers.xcheck.toFixed(2)
+      +'%. What does that let you conclude?',
+      [['The launch system was working correctly.',0],
+       ['The launch energy figure is confirmed by an independent instrument, so the dispute is no longer about how much energy the train started with \u2014 only about where it went.',1],
+       ['The train was dragging.',0],
+       ['The maintenance file is accurate.',0]],
+      'Correct. Both parties accept the starting energy now. That is what turns this into an audit.',
+      'No. This stage tests whether the launch figure can be trusted, not what happened afterwards.');
+    return;
+  }
+  if(STAGES[i].id==='ratio'){
+    var healthy=C.truth.healthyAtTop, need=C.answers.E_top;
+    gate(i,'A healthy train losing only the documented '+n(C.answers.W_expect,3)
+      +' MJ would have arrived at the crest with '+n(healthy,3)
+      +' MJ of mechanical energy. The certification requires '+n(need,3)
+      +' MJ. Would that train have cleared the crest within certification?',
+      [['Yes \u2014 an identical train losing only the documented resistance would have made it.', C.truth.wouldHaveCleared?1:0],
+       ['No \u2014 even losing only the documented resistance, it would still have fallen short.', C.truth.wouldHaveCleared?0:1]],
+      C.truth.wouldHaveCleared
+        ? 'Correct. The launch supplied enough. Something else took the energy.'
+        : 'Correct. The launch never supplied enough, whatever the train\u2019s condition.',
+      'Compare the two figures in the question again.',
+      showVerdict);
+    return;
+  }
+  if(i+1<STAGES.length) openStage(i+1); else showVerdict();
+}
+
+function gate(i,question,opts,goodMsg,badMsg,onPass){
+  var box=document.createElement('div');
+  box.innerHTML='<p class="ask" style="margin-top:16px">'+question+'</p><div class="choices">'
+    +opts.map(function(o,k){return '<button class="choice" data-ok="'+o[1]+'">'+o[0]+'</button>';}).join('')
+    +'</div><div class="fb" id="fbG'+i+'"></div>';
+  $('#st'+i+' .stBody').appendChild(box);
+  box.querySelectorAll('.choice').forEach(function(b){
+    b.addEventListener('click',function(){
+      var f=$('#fbG'+i); f.className='fb show';
+      if(b.dataset.ok==='1'){
+        f.classList.add('good'); f.textContent=goodMsg;
+        box.querySelectorAll('.choice').forEach(function(x){x.disabled=true;});
+        setTimeout(onPass||function(){openStage(i+1);},600);
+      }else{ f.classList.add('bad'); f.textContent=badMsg; }
+    });
+  });
+}
+
+function showVerdict(){
+  $('#verdictWrap').classList.remove('hidden');
+  $('#verdictAsk').innerHTML='The train dissipated <strong>'+n(C.answers.W_actual,3)
+    +' MJ</strong> against a documented expectation of <strong>'+n(C.answers.W_expect,3)
+    +' MJ</strong> \u2014 a ratio of <strong>'+n(C.answers.ratio,2)
+    +'\u00d7</strong>. It stalled at '+n(C.truth.stallFraction,0)+'% of the crest height.';
+  document.querySelectorAll('.vcard').forEach(function(b){
+    b.addEventListener('click',function(){
+      document.querySelectorAll('.vcard').forEach(function(x){x.classList.remove('sel');});
+      b.classList.add('sel'); chosen=b.dataset.v; $('#verdictBtn').disabled=false;
+    });
+  });
+  $('#verdictBtn').addEventListener('click',fileVerdict);
+  $('#verdictWrap').scrollIntoView({behavior:reduced?'auto':'smooth',block:'center'});
+}
+
+function fileVerdict(){
+  var f=$('#verdictFb'); f.className='fb show';
+  if(chosen!==C.verdict){
+    f.classList.add('bad');
+    f.textContent='Look again at your ratio of '+n(C.answers.ratio,2)
+      +'\u00d7 and at whether a healthy train would have cleared the crest.';
+    return;
+  }
+  f.classList.add('good');
+  f.textContent='Verdict filed: '+(C.verdict==='MECHANICAL DRAG'
+    ? 'abnormal mechanical energy loss.' : 'insufficient launch energy.');
+  $('#verdictBtn').disabled=true;
+  document.querySelectorAll('.vcard').forEach(function(x){x.disabled=true;});
+  buildReplay(); buildCER();
+}
+
+/* ---------- reconstruction ---------- */
+function buildReplay(){
+  $('#replayWrap').classList.remove('hidden');
+  renderReplay();
+  $('#replayAgain').addEventListener('click',renderReplay);
+  $('#replayWrap').scrollIntoView({behavior:reduced?'auto':'smooth',block:'start'});
+}
+
+function renderReplay(){
+  var W=860,H=470, cx=560, cy=250, R=150;
+  var base=cy+R;                                   /* bottom of the loop */
+  var g=C.given;
+  var pxPerM=(2*R)/g.h_top;                        /* loop drawn to scale */
+
+  /* angle up the loop for a given height: h = R(1-cos t) in drawing terms */
+  function angleFor(h){
+    var frac=Math.min(Math.max(h/g.h_top,0),1);
+    return Math.PI*frac;                            /* 0 at bottom, pi at crest */
+  }
+  function pointAt(h,dir){
+    var t=angleFor(h);
+    return [cx + dir*R*Math.sin(t), base - R*(1-Math.cos(t))];
+  }
+  var pStall=pointAt(g.h_stall,1);
+  var healthyH=Math.min(C.truth.healthyAtTop*1e6/(g.m*g.g), g.h_top);
+  var pHealthy=pointAt(healthyH,1);
+  var cleared=C.truth.wouldHaveCleared;
+
+  var dur=2.6;
+  $('#replayBox').innerHTML =
+   '<svg viewBox="0 0 '+W+' '+H+'" xmlns="http://www.w3.org/2000/svg">'
+   +'<rect width="'+W+'" height="'+H+'" fill="#04070c"/>'
+   +'<rect x="0" y="'+(base+2)+'" width="'+W+'" height="'+(H-base-2)+'" fill="#111c26"/>'
+   /* launch track + loop */
+   +'<path d="M60 '+base+' L'+cx+' '+base+'" stroke="#3c5468" stroke-width="8" fill="none"/>'
+   +'<circle cx="'+cx+'" cy="'+cy+'" r="'+R+'" fill="none" stroke="#3c5468" stroke-width="8"/>'
+   +'<circle cx="'+cx+'" cy="'+cy+'" r="'+(R-6)+'" fill="none" stroke="#6d8ba1" stroke-width="2" opacity=".5"/>'
+   /* crest requirement marker */
+   +'<line x1="'+(cx-R-46)+'" y1="'+(base-2*R)+'" x2="'+(cx+R+30)+'" y2="'+(base-2*R)+'" '
+     +'stroke="#e8a33d" stroke-width="1.5" stroke-dasharray="6 6" opacity=".7"/>'
+   +'<text x="'+(cx-R-52)+'" y="'+(base-2*R-8)+'" fill="#e8a33d" text-anchor="end" '
+     +'font-family="Helvetica Neue,Arial" font-size="12">crest '+g.h_top.toFixed(1)+' m</text>'
+   /* healthy-train marker */
+   +'<circle cx="'+pHealthy[0].toFixed(1)+'" cy="'+pHealthy[1].toFixed(1)+'" r="11" '
+     +'fill="none" stroke="#8fa3b3" stroke-width="2" stroke-dasharray="4 4"/>'
+   +'<text x="'+(pHealthy[0]+20).toFixed(1)+'" y="'+(pHealthy[1]+4).toFixed(1)+'" fill="#8fa3b3" '
+     +'font-family="Helvetica Neue,Arial" font-size="12">'
+     +(cleared?'a healthy train clears it':'a healthy train also stalls')+'</text>'
+   /* actual train */
+   +'<g class="rp-car"'+(reduced?' transform="translate('+pStall[0].toFixed(1)+','+pStall[1].toFixed(1)+')"':'')+'><rect x="-22" y="-8" width="44" height="16" rx="4" fill="#b8452f" '
+     +'stroke="#e0765a" stroke-width="1.4"/>'
+     +(reduced?'':'<animateMotion dur="'+dur+'s" begin="0s" fill="freeze" rotate="auto" '
+       +'calcMode="spline" keyTimes="0;1" keySplines="0.1 0.5 0.4 1" '
+       +'path="M60,'+base+' L'+cx+','+base+' A'+R+','+R+' 0 0,0 '
+       +pStall[0].toFixed(1)+','+pStall[1].toFixed(1)+'"/>')
+     +'</g>'
+   /* stall marker */
+   +'<circle cx="'+pStall[0].toFixed(1)+'" cy="'+pStall[1].toFixed(1)+'" r="5" fill="#d1604f"/>'
+   +'<text x="'+(pStall[0]+16).toFixed(1)+'" y="'+(pStall[1]-12).toFixed(1)+'" fill="#d1604f" '
+     +'font-family="Helvetica Neue,Arial" font-size="12">stalled at '+g.h_stall.toFixed(2)+' m</text>'
+   /* readouts */
+   +'<g font-family="Helvetica Neue,Arial" font-size="12" fill="#9aa3ad">'
+   +'<text x="40" y="60">launch energy</text>'
+   +'<text x="40" y="84" fill="#e8a33d" font-size="19" font-weight="700">'+n(C.answers.KE0,3)+' MJ</text>'
+   +'<text x="40" y="126">required at the crest</text>'
+   +'<text x="40" y="150" fill="#e9e7e2" font-size="19" font-weight="700">'+n(C.answers.E_top,3)+' MJ</text>'
+   +'<text x="40" y="192">dissipated / documented</text>'
+   +'<text x="40" y="216" fill="'+(C.verdict==='MECHANICAL DRAG'?'#d1604f':'#5fb87a')+'" '
+     +'font-size="19" font-weight="700">'+n(C.answers.ratio,2)+'\u00d7</text>'
+   +'</g>'
+   +'</svg>'
+   +'<div class="rcap">'
+   +(C.verdict==='MECHANICAL DRAG'
+     ? 'The train left the launch with '+n(C.answers.KE0,3)+' MJ \u2014 more than the '
+       +n(C.answers.E_top,3)+' MJ the crest requires, even after the documented losses. '
+       +'It still stalled at '+n(C.truth.stallFraction,0)+'% of the crest height, because '
+       +n(C.answers.W_actual,3)+' MJ disappeared instead of the expected '+n(C.answers.W_expect,3)
+       +' MJ. That is '+n(C.answers.ratio,2)+' times the documented resistance.'
+     : 'The train left the launch with '+n(C.answers.KE0,3)+' MJ. The crest requires '
+       +n(C.answers.E_top,3)+' MJ, and the documented losses alone account for '
+       +n(C.answers.W_expect,3)+' MJ of what was lost \u2014 the actual loss was '
+       +n(C.answers.ratio,2)+' times that, which is within normal variation. '
+       +'An identical train in perfect condition would have stalled too.')
+   +'</div>';
+}
+
+/* ---------- CER ---------- */
+function buildCER(){
+  $('#cerWrap').classList.remove('hidden');
+  var drag = C.verdict==='MECHANICAL DRAG';
+  $('#xq1').textContent = drag
+    ? 'Counsel for the manufacturer: \u201cThe train got to '+n(C.truth.stallFraction,0)
+      +'% of the crest height. It nearly made it. A slightly stronger launch and it would have been fine \u2014 that is a launch problem, not ours.\u201d Answer using your launch energy and the documented losses.'
+    : 'Counsel for the park: \u201cThe train reached '+n(C.truth.stallFraction,0)
+      +'% of the crest height. It very nearly completed the loop, so the launch was all but sufficient. Something small must have gone wrong on the train.\u201d Explain why \u201cnearly\u201d is not a category here.';
+  $('#xq2').textContent = drag
+    ? 'Counsel for the manufacturer: \u201cYour \u2018expected loss\u2019 is a figure copied off a maintenance sheet. Real trains vary from the paperwork.\u201d Answer with the size of the discrepancy you found.'
+    : 'Counsel for the park: \u201cThe loop has up-stop wheels. The train physically cannot fall off, so it only ever needed enough energy to get over the top \u2014 your extra kinetic term is invented.\u201d Answer this carefully.';
+  $('#printBtn').addEventListener('click',function(){ buildReport(); window.print(); });
+  window.addEventListener('beforeprint', buildReport);
+}
+
+/* ---------- printable report ---------- */
+function esc(t){ return String(t||'').replace(/[&<>]/g,function(c){
+  return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c]; }); }
+
+function buildReport(){
+  if(!C) return;
+  var g=C.given,a=C.answers;
+  var rows=STAGES.map(function(s,i){
+    var st=stageState[i]||{tries:0,done:false};
+    return '<tr><td>'+(i+1)+' &middot; '+s.title+'</td>'
+      +'<td class="num ans">'+(st.done?n(a[s.id],s.dp)+' '+s.unit:'\u2014')+'</td>'
+      +'<td class="num">'+(st.done?st.tries:'\u2014')+'</td></tr>';
+  }).join('');
+  var qa=[['Claim',$('#cClaim')],['Evidence',$('#cEvid')],['Reasoning',$('#cReason')]]
+    .map(function(p){return '<div class="qa"><div class="q">'+p[0]+'</div><div class="a">'
+      +esc(p[1]?p[1].value:'')+'</div></div>';}).join('');
+  var xq=[[$('#xq1'),$('#cX1')],[$('#xq2'),$('#cX2')]].map(function(p){
+    return '<div class="qa"><div class="q">'+esc(p[0]?p[0].textContent:'')+'</div>'
+      +'<div class="a">'+esc(p[1]?p[1].value:'')+'</div></div>';}).join('');
+  var filed = chosen && chosen===C.verdict;
+  var label = C.verdict==='MECHANICAL DRAG'
+    ? 'ABNORMAL MECHANICAL ENERGY LOSS' : 'INSUFFICIENT LAUNCH ENERGY';
+
+  $('#printReport').innerHTML =
+    '<div class="pcase">EVIDENCE &amp; EQUATIONS &nbsp;&middot;&nbsp; CASE #05</div>'
+   +'<h1>The Broken Coaster</h1>'
+   +'<p class="pmeta"><strong>Team '+esc(C.team)+'</strong> &nbsp;&middot;&nbsp; Investigator report '
+     +'&nbsp;&middot;&nbsp; generated '+new Date().toLocaleDateString()+'</p>'
+   +'<h2>EVIDENCE ISSUED TO THIS TEAM</h2>'
+   +'<table><tr><th>Item</th><th>Value</th><th>Item</th><th>Value</th></tr>'
+   +'<tr><td>Loop radius</td><td class="num">'+g.r.toFixed(1)+' m</td>'
+     +'<td>Crest height</td><td class="num">'+g.h_top.toFixed(1)+' m</td></tr>'
+   +'<tr><td>Train mass</td><td class="num">'+g.m+' kg</td>'
+     +'<td>Launch exit speed</td><td class="num">'+g.v0.toFixed(2)+' m/s</td></tr>'
+   +'<tr><td>Stall height</td><td class="num">'+g.h_stall.toFixed(2)+' m</td>'
+     +'<td>Track distance</td><td class="num">'+g.s+' m</td></tr>'
+   +'<tr><td>Resistance coefficient</td><td class="num">'+g.mu.toFixed(3)+'</td>'
+     +'<td>Sealed photogate</td><td class="num">'+C.sealed.v_gate.toFixed(2)+' m/s</td></tr>'
+   +'</table>'
+   +'<h2>ENERGY AUDIT FILED</h2>'
+   +'<table><tr><th>Stage</th><th style="width:26mm">Accepted answer</th>'
+     +'<th style="width:20mm">Attempts</th></tr>'+rows+'</table>'
+   +'<h2>VERDICT</h2><p><span class="vd">'+(filed?label:'NOT FILED')+'</span></p>'
+   +'<p style="font:9.5pt/1.5 \'Helvetica Neue\',Arial,sans-serif;color:#555">'
+     +'Actual dissipation '+n(a.W_actual,3)+' MJ against a documented '+n(a.W_expect,3)
+     +' MJ &mdash; a ratio of '+n(a.ratio,2)+'&times;. Stalled at '+n(C.truth.stallFraction,0)
+     +'% of the crest height.</p>'
+   +'<h2>CLAIM, EVIDENCE, REASONING</h2>'+qa
+   +'<h2>CROSS-EXAMINATION</h2>'+xq
+   +'<div class="foot">Evidence &amp; Equations &middot; Case #05 &ldquo;The Broken Coaster&rdquo; &middot; '
+     +'Every team&rsquo;s ride is generated from its team name.</div>';
+}
+
+/* ---------- cinematic ---------- */
+function playCine(done){
+  var cine=$('#cine'); cine.classList.remove('hidden');
+  var finished=false;
+  function end(){ if(finished)return; finished=true; cine.classList.add('hidden'); done(); }
+  $('#cineSkip').onclick=end;
+  if(reduced){ end(); return; }
+
+  var st=document.createElement('style');
+  st.textContent =
+   '.j-cam{transform-box:fill-box;transform-origin:52% 52%;animation:jPush 11s ease-out forwards}'
+  +'@keyframes jPush{0%{transform:scale(1)}100%{transform:scale(1.08)}}'
+  +'.j-brake{animation:jBrake .5s ease-out 8.9s forwards}'
+  +'@keyframes jBrake{to{opacity:.9}}'
+  +'.j-bulbs{animation:jChase 1.1s steps(1,end) infinite}'
+  +'@keyframes jChase{0%,100%{opacity:.85}50%{opacity:.3}}'
+  +'.j-lamp{animation:jFlick 6.5s ease-in-out infinite}'
+  +'@keyframes jFlick{0%,100%{opacity:1}44%{opacity:.83}49%{opacity:1}}'
+  +'.j-hud{animation:jIn .6s ease-out 9.3s forwards}'
+  +'@keyframes jIn{to{opacity:1}}';
+  document.head.appendChild(st);
+
+  var jm=document.getElementById('jMotion');
+  if(jm && jm.beginElement) { try{ jm.beginElement(); }catch(e){} }
+
+  var el=document.getElementById('telVal'), t0=null, target=C.given.v0;
+  function tick(ts){
+    if(finished) return;
+    if(!t0) t0=ts;
+    var p=Math.min((ts-t0)/1600,1);
+    el.textContent=(target*(0.6+0.4*p)+(1-p)*(Math.random()-0.5)).toFixed(2);
+    if(p<1) requestAnimationFrame(tick); else el.textContent=target.toFixed(2);
+  }
+  setTimeout(function(){ requestAnimationFrame(tick); },9500);
+  setTimeout(function(){ var t=document.getElementById('telTag');
+    if(t){ t.style.transition='opacity .4s'; t.style.opacity='1'; } },10800);
+  setTimeout(function(){ var c=$('#cineCap'); c.style.transition='opacity .7s'; c.style.opacity='1'; },11400);
+  setTimeout(end,13000);
+}
+
+/* ---------- start ---------- */
+/* SMIL is not governed by the reduced-motion media query, so stop the hero
+   train explicitly and leave it parked partway up the loop. */
+if(reduced){
+  var bm=document.getElementById('bcMotion');
+  if(bm){
+    if(bm.endElement){ try{ bm.endElement(); }catch(e){} }
+    bm.setAttribute('begin','indefinite');
+    var tr=document.querySelector('.bc-train');
+    if(tr) tr.setAttribute('transform','translate(568,332) rotate(-40)');
+  }
+}
+
+$('#startBtn').addEventListener('click',start);
+$('#teamIn').addEventListener('keydown',function(e){ if(e.key==='Enter') start(); });
+
+function start(){
+  var name=$('#teamIn').value.trim();
+  if(EE05.normalizeTeam(name).length<3){
+    $('#teamIn').focus(); $('#teamIn').style.borderColor='var(--no)'; return;
+  }
+  C=EE05.generate(name);
+  $('#title').classList.add('hidden');
+  function reveal(){
+    cineDone=true;
+    $('#case').classList.remove('hidden');
+    $('#teamTag').textContent='TEAM '+C.team;
+    buildEvidence(); buildStages(); window.scrollTo(0,0);
+  }
+  if(cineDone) reveal(); else playCine(reveal);
+}
+})();
+</script>
+</body>
+</html>

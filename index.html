@@ -88,7 +88,8 @@ h3.sec{font-size:13px;letter-spacing:.18em;color:var(--chalk-dim);margin:38px 0 
 .evi .full{display:block;padding:7px 0 0;color:var(--chalk-dim);font-size:13px;line-height:1.55}
 
 .stage{border:1px solid var(--rule);border-radius:3px;margin-bottom:12px;background:var(--ink2);overflow:hidden}
-.stage.locked{opacity:.42}
+.stage.locked{opacity:.42;pointer-events:none}
+.stage.done{opacity:1}
 .stage.done{border-color:#2f4a38}
 .stHead{display:flex;align-items:center;gap:14px;padding:16px 18px}
 .stNum{flex:none;width:26px;height:26px;border-radius:50%;border:1px solid var(--rule);
@@ -678,7 +679,7 @@ function check(i){
   st.tries++;
   if(Math.abs(v-target)<=band){
     st.done=true;
-    $('#st'+i).classList.remove('open'); $('#st'+i).classList.add('done');
+    $('#st'+i).classList.remove('open','locked'); $('#st'+i).classList.add('done');
     fb.classList.add('good');
     fb.textContent='Accepted \u2014 '+n(target,s.dp)+' '+s.unit+(st.tries===1?'':' (after '+st.tries+' attempts)');
     $('#ck'+i).disabled=true; $('#in'+i).disabled=true;
